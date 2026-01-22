@@ -11,17 +11,18 @@ export async function checkToken(token) {
   });
 
   const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error || "Invalid token");
-  }
-
+  if (!res.ok) throw new Error(data.error || "Invalid token");
   return data;
 }
 
 export async function fetchCurrentUser() {
+  const token = localStorage.getItem("authToken");
+
   const res = await fetch(`${AUTH_BASE}/me`, {
     credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!res.ok) return null;
