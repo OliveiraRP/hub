@@ -1,30 +1,21 @@
-import { ENV } from "../config/env";
-
-const AUTH_BASE = `${ENV.BACKEND_URL}/api/v1/auth`;
+import { client } from "./client.api";
 
 export async function checkToken(token) {
-  const res = await fetch(`${AUTH_BASE}/check-token`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Invalid token");
+  const data = await client.post("/auth/check-token", { token });
   return data;
 }
 
 export async function fetchCurrentUser() {
   const token = localStorage.getItem("authToken");
 
-  const res = await fetch(`${AUTH_BASE}/me`, {
-    credentials: "include",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  if (!token || token === "null") {
+    return null;
+  }
 
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    return await client.get("/auth/me");
+  } catch (error) {
+    localStorage.removeItem("authToken");
+    return null;
+  }
 }
