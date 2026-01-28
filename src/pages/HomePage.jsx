@@ -6,7 +6,8 @@ import bmIcon from "@assets/icons/bmIcon.png";
 
 export default function HomePage() {
   const goToBudgetManager = () => {
-    window.location.href = ENV.BUDGET_MANAGER_URL;
+    const token = localStorage.getItem("authToken");
+    window.location.href = `${ENV.BUDGET_MANAGER_URL}?t=${token}`;
   };
 
   return (

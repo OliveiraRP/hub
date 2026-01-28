@@ -12,11 +12,11 @@ export default function AuthPage({ onLogin }) {
 
   const handleSubmit = async () => {
     if (!token) return;
-
     setError("");
 
     try {
       await checkToken(token);
+      localStorage.setItem("authToken", token);
       onLogin();
     } catch (err) {
       setError(err.message);
