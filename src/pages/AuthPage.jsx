@@ -16,7 +16,6 @@ export default function AuthPage({ onLogin }) {
 
     try {
       await checkToken(token);
-      localStorage.setItem("authToken", token);
       onLogin();
     } catch (err) {
       setError(err.message);
