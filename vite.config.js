@@ -12,6 +12,7 @@ export default defineConfig({
   },
   server: {
     host: "0.0.0.0",
+    cors: true,
   },
   optimizeDeps: {
     include: ["react-icons/tb"],
@@ -20,5 +21,6 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: false,
     minify: "esbuild",
+    emptyOutDir: true,
   },
 });
